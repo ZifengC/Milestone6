@@ -17,35 +17,35 @@
             "source": "rag_overview.md",
             "chunk_index": 0,
             "score": 0.471,
-            "preview": "# Retrieval-Augmented Generation Overview\n\nRetrieval-Augmented Generation, usually called RAG, is an architecture that combines information retrieval with text generation. Instead of asking a language model to answer only from its internal parameters, a RAG system first searches an external knowledge base and then provides relevant context to the m"
+            "text": "# Retrieval-Augmented Generation Overview\n\nRetrieval-Augmented Generation, usually called RAG, is an architecture that combines information retrieval with text generation. Instead of asking a language model to answer only from its internal parameters, a RAG system first searches an external knowledge base and then provides relevant context to the model.\n\nThe main benefit of RAG is that it can reduce hallucination. The model is instructed to answer from retrieved documents, so factual claims can be grounded in source text. RAG is especially useful when the knowledge changes over time or when the answer must come from a private document collection.\n\nA typical RAG pipeline has two stages. The indexing stage prepares documents by chunking them, embedding each chunk, and storing the vectors in a vector database. The query stage embeds the user question, retrieves similar chunks, constructs a prompt, and sends that prompt to a language model for the final answer.\n"
           },
           {
             "rank": 2,
             "source": "grounding.md",
             "chunk_index": 0,
             "score": 0.23,
-            "preview": "# Grounded Answer Generation\n\nGrounding means constraining a language model answer to the retrieved context. A grounded RAG prompt should include the user question, the retrieved context, and clear instructions that the model must only use the provided context.\n\nSource attribution is important because it allows users to verify claims. A prompt can "
+            "text": "# Grounded Answer Generation\n\nGrounding means constraining a language model answer to the retrieved context. A grounded RAG prompt should include the user question, the retrieved context, and clear instructions that the model must only use the provided context.\n\nSource attribution is important because it allows users to verify claims. A prompt can label each retrieved chunk with a source name and chunk number. The model can then cite the source when answering.\n\nIf the retrieved context does not contain enough information, the model should say that the context is insufficient. This behavior is better than inventing an answer. In evaluation, unsupported claims are counted as hallucinations even if they sound plausible.\n"
           },
           {
             "rank": 3,
             "source": "embeddings.md",
             "chunk_index": 0,
             "score": 0.213,
-            "preview": "# Embedding Models\n\nEmbedding models convert text into dense numerical vectors. Texts with similar meanings should have vectors that are close to each other in the embedding space. This makes it possible to search by semantic meaning instead of exact keyword overlap.\n\nSentence-transformers is a common Python library for generating text embeddings. "
+            "text": "# Embedding Models\n\nEmbedding models convert text into dense numerical vectors. Texts with similar meanings should have vectors that are close to each other in the embedding space. This makes it possible to search by semantic meaning instead of exact keyword overlap.\n\nSentence-transformers is a common Python library for generating text embeddings. The model all-MiniLM-L6-v2 is often used for prototypes because it is small, fast, and produces 384-dimensional vectors. Larger embedding models may improve quality but usually require more memory and time.\n\nIn a RAG system, the same embedding model should be used for both document chunks and user queries. If documents and queries are embedded with different models, similarity scores may be unreliable.\n"
           },
           {
             "rank": 4,
             "source": "chunking.md",
             "chunk_index": 0,
             "score": 0.156,
-            "preview": "# Document Chunking\n\nDocument chunking is the process of splitting long documents into smaller passages. Chunking matters because embedding models and language models have context limits, and retrieval works better when each indexed item has a focused topic.\n\nCommon chunking strategies include fixed-size chunking, paragraph-based chunking, sentence"
+            "text": "# Document Chunking\n\nDocument chunking is the process of splitting long documents into smaller passages. Chunking matters because embedding models and language models have context limits, and retrieval works better when each indexed item has a focused topic.\n\nCommon chunking strategies include fixed-size chunking, paragraph-based chunking, sentence-boundary chunking, and recursive chunking. Fixed-size chunking is simple but may break ideas in the middle. Paragraph and sentence-aware chunking usually preserves meaning better.\n\nChunk size is a design decision. Small chunks can improve precision because each result is focused, but they may lose surrounding context. Large chunks preserve more context but can reduce retrieval precision. Overlap helps by copying some words from one chunk into the next so that important information near a boundary is not lost.\n\nFor a small class project, a chunk size around 256 to 512 tokens with 40 to 80 tokens of overlap is a reasonable starting point.\n"
           },
           {
             "rank": 5,
             "source": "llm_agents.md",
             "chunk_index": 0,
             "score": 0.116,
-            "preview": "# LLM Agents\n\nAn LLM agent is a system where a language model does more than answer a single prompt. The model can plan steps, choose tools, observe tool results, and continue working toward a goal. The agent loop often follows a pattern such as think, act, observe, and revise.\n\nAgents are useful when a task requires multiple actions. For example, "
+            "text": "# LLM Agents\n\nAn LLM agent is a system where a language model does more than answer a single prompt. The model can plan steps, choose tools, observe tool results, and continue working toward a goal. The agent loop often follows a pattern such as think, act, observe, and revise.\n\nAgents are useful when a task requires multiple actions. For example, an agent might search documents, call a calculator, query a database, summarize findings, and then produce a final answer. Tool use allows the model to access capabilities that are outside its internal knowledge.\n\nA basic agent controller includes a tool registry, a routing or planning method, execution logic, and trace logging. The trace records each step so that developers can debug why the agent selected a tool or produced an answer.\n\nAgent systems need safeguards. They should limit the number of steps, handle tool errors, avoid infinite loops, and keep actions grounded in available observations. For class projects, simple rule-based tool selection is acceptable if the traces clearly show multi-step behavior.\n"
           }
         ],
         "latency_ms": 26.64
@@ -90,35 +90,35 @@
             "source": "grounding.md",
             "chunk_index": 0,
             "score": 0.534,
-            "preview": "# Grounded Answer Generation\n\nGrounding means constraining a language model answer to the retrieved context. A grounded RAG prompt should include the user question, the retrieved context, and clear instructions that the model must only use the provided context.\n\nSource attribution is important because it allows users to verify claims. A prompt can "
+            "text": "# Grounded Answer Generation\n\nGrounding means constraining a language model answer to the retrieved context. A grounded RAG prompt should include the user question, the retrieved context, and clear instructions that the model must only use the provided context.\n\nSource attribution is important because it allows users to verify claims. A prompt can label each retrieved chunk with a source name and chunk number. The model can then cite the source when answering.\n\nIf the retrieved context does not contain enough information, the model should say that the context is insufficient. This behavior is better than inventing an answer. In evaluation, unsupported claims are counted as hallucinations even if they sound plausible.\n"
           },
           {
             "rank": 2,
             "source": "llm_memory.md",
             "chunk_index": 0,
             "score": 0.146,
-            "preview": "# LLM Memory\n\nLLM memory refers to mechanisms that allow a language model application to retain useful information across turns or sessions. The base model itself does not permanently remember a user's information after a conversation unless the application stores that information externally and provides it again as context.\n\nMemory can be short-te"
+            "text": "# LLM Memory\n\nLLM memory refers to mechanisms that allow a language model application to retain useful information across turns or sessions. The base model itself does not permanently remember a user's information after a conversation unless the application stores that information externally and provides it again as context.\n\nMemory can be short-term or long-term. Short-term memory usually means recent conversation history that is placed directly into the prompt. Long-term memory usually means user preferences, prior facts, summaries, or task history stored in a database and retrieved when relevant.\n\nMemory can improve personalization because the assistant can adapt to a user's goals, constraints, and prior choices. For example, a travel assistant might remember that a user prefers morning flights and vegetarian meals. A coding assistant might remember a project's framework, naming conventions, and testing commands.\n\nMemory also creates risks. Stored preferences may become stale, private information must be protected, and irrelevant memories can bias future answers. A good memory system should decide what to store, when to retrieve it, and how to let users inspect or delete remembered information.\n"
           },
           {
             "rank": 3,
             "source": "personalization_bias.md",
             "chunk_index": 0,
             "score": 0.137,
-            "preview": "# Personalization Bias\n\nPersonalization bias occurs when a system overuses prior user behavior or popularity signals and narrows what the user sees. In recommender systems, this can create filter bubbles where users repeatedly receive similar items and have fewer chances to discover diverse content.\n\nPopularity bias is a common related issue. Popul"
+            "text": "# Personalization Bias\n\nPersonalization bias occurs when a system overuses prior user behavior or popularity signals and narrows what the user sees. In recommender systems, this can create filter bubbles where users repeatedly receive similar items and have fewer chances to discover diverse content.\n\nPopularity bias is a common related issue. Popular items receive more exposure, which produces more interactions, which then makes them appear even more relevant. This feedback loop can make niche or new items difficult to surface even when they match a user's needs.\n\nPersonalization can also amplify social bias if recommendations are based heavily on group-level behavior. A system may infer preferences from similar users and reinforce stereotypes or majority patterns rather than the individual's current intent.\n\nMitigation strategies include diversity-aware ranking, exploration, fairness constraints, debiasing training data, and measuring exposure across item groups. A balanced recommender should remain relevant while still giving users opportunities to discover novel and less popular items.\n"
           },
           {
             "rank": 4,
             "source": "rag_overview.md",
             "chunk_index": 0,
             "score": 0.122,
-            "preview": "# Retrieval-Augmented Generation Overview\n\nRetrieval-Augmented Generation, usually called RAG, is an architecture that combines information retrieval with text generation. Instead of asking a language model to answer only from its internal parameters, a RAG system first searches an external knowledge base and then provides relevant context to the m"
+            "text": "# Retrieval-Augmented Generation Overview\n\nRetrieval-Augmented Generation, usually called RAG, is an architecture that combines information retrieval with text generation. Instead of asking a language model to answer only from its internal parameters, a RAG system first searches an external knowledge base and then provides relevant context to the model.\n\nThe main benefit of RAG is that it can reduce hallucination. The model is instructed to answer from retrieved documents, so factual claims can be grounded in source text. RAG is especially useful when the knowledge changes over time or when the answer must come from a private document collection.\n\nA typical RAG pipeline has two stages. The indexing stage prepares documents by chunking them, embedding each chunk, and storing the vectors in a vector database. The query stage embeds the user question, retrieves similar chunks, constructs a prompt, and sends that prompt to a language model for the final answer.\n"
           },
           {
             "rank": 5,
             "source": "chunking.md",
             "chunk_index": 0,
             "score": 0.094,
-            "preview": "# Document Chunking\n\nDocument chunking is the process of splitting long documents into smaller passages. Chunking matters because embedding models and language models have context limits, and retrieval works better when each indexed item has a focused topic.\n\nCommon chunking strategies include fixed-size chunking, paragraph-based chunking, sentence"
+            "text": "# Document Chunking\n\nDocument chunking is the process of splitting long documents into smaller passages. Chunking matters because embedding models and language models have context limits, and retrieval works better when each indexed item has a focused topic.\n\nCommon chunking strategies include fixed-size chunking, paragraph-based chunking, sentence-boundary chunking, and recursive chunking. Fixed-size chunking is simple but may break ideas in the middle. Paragraph and sentence-aware chunking usually preserves meaning better.\n\nChunk size is a design decision. Small chunks can improve precision because each result is focused, but they may lose surrounding context. Large chunks preserve more context but can reduce retrieval precision. Overlap helps by copying some words from one chunk into the next so that important information near a boundary is not lost.\n\nFor a small class project, a chunk size around 256 to 512 tokens with 40 to 80 tokens of overlap is a reasonable starting point.\n"
           }
         ],
         "latency_ms": 60.26
@@ -163,35 +163,35 @@
             "source": "chunking.md",
             "chunk_index": 0,
             "score": 0.572,
-            "preview": "# Document Chunking\n\nDocument chunking is the process of splitting long documents into smaller passages. Chunking matters because embedding models and language models have context limits, and retrieval works better when each indexed item has a focused topic.\n\nCommon chunking strategies include fixed-size chunking, paragraph-based chunking, sentence"
+            "text": "# Document Chunking\n\nDocument chunking is the process of splitting long documents into smaller passages. Chunking matters because embedding models and language models have context limits, and retrieval works better when each indexed item has a focused topic.\n\nCommon chunking strategies include fixed-size chunking, paragraph-based chunking, sentence-boundary chunking, and recursive chunking. Fixed-size chunking is simple but may break ideas in the middle. Paragraph and sentence-aware chunking usually preserves meaning better.\n\nChunk size is a design decision. Small chunks can improve precision because each result is focused, but they may lose surrounding context. Large chunks preserve more context but can reduce retrieval precision. Overlap helps by copying some words from one chunk into the next so that important information near a boundary is not lost.\n\nFor a small class project, a chunk size around 256 to 512 tokens with 40 to 80 tokens of overlap is a reasonable starting point.\n"
           },
           {
             "rank": 2,
             "source": "rag_overview.md",
             "chunk_index": 0,
             "score": 0.297,
-            "preview": "# Retrieval-Augmented Generation Overview\n\nRetrieval-Augmented Generation, usually called RAG, is an architecture that combines information retrieval with text generation. Instead of asking a language model to answer only from its internal parameters, a RAG system first searches an external knowledge base and then provides relevant context to the m"
+            "text": "# Retrieval-Augmented Generation Overview\n\nRetrieval-Augmented Generation, usually called RAG, is an architecture that combines information retrieval with text generation. Instead of asking a language model to answer only from its internal parameters, a RAG system first searches an external knowledge base and then provides relevant context to the model.\n\nThe main benefit of RAG is that it can reduce hallucination. The model is instructed to answer from retrieved documents, so factual claims can be grounded in source text. RAG is especially useful when the knowledge changes over time or when the answer must come from a private document collection.\n\nA typical RAG pipeline has two stages. The indexing stage prepares documents by chunking them, embedding each chunk, and storing the vectors in a vector database. The query stage embeds the user question, retrieves similar chunks, constructs a prompt, and sends that prompt to a language model for the final answer.\n"
           },
           {
             "rank": 3,
             "source": "vector_databases.md",
             "chunk_index": 0,
             "score": 0.258,
-            "preview": "# Vector Databases\n\nA vector database stores embedding vectors and supports nearest-neighbor search. When a user asks a question, the question is embedded and compared against stored document chunk embeddings. The database returns the top-k most similar chunks.\n\nFAISS is a popular library for vector similarity search. For small datasets, an exact F"
+            "text": "# Vector Databases\n\nA vector database stores embedding vectors and supports nearest-neighbor search. When a user asks a question, the question is embedded and compared against stored document chunk embeddings. The database returns the top-k most similar chunks.\n\nFAISS is a popular library for vector similarity search. For small datasets, an exact FAISS index such as IndexFlatIP or IndexFlatL2 is simple and reliable. For larger datasets, approximate indexes can improve speed by trading off a small amount of accuracy.\n\nChroma is another vector database option. It provides persistence and metadata filtering in a higher-level interface. FAISS is useful for learning because it exposes the vector search step clearly.\n\nThe top-k setting controls how many chunks are passed into the prompt. A small k can miss relevant evidence. A large k can add noise and increase generation latency.\n"
           },
           {
             "rank": 4,
             "source": "embeddings.md",
             "chunk_index": 0,
             "score": 0.23,
-            "preview": "# Embedding Models\n\nEmbedding models convert text into dense numerical vectors. Texts with similar meanings should have vectors that are close to each other in the embedding space. This makes it possible to search by semantic meaning instead of exact keyword overlap.\n\nSentence-transformers is a common Python library for generating text embeddings. "
+            "text": "# Embedding Models\n\nEmbedding models convert text into dense numerical vectors. Texts with similar meanings should have vectors that are close to each other in the embedding space. This makes it possible to search by semantic meaning instead of exact keyword overlap.\n\nSentence-transformers is a common Python library for generating text embeddings. The model all-MiniLM-L6-v2 is often used for prototypes because it is small, fast, and produces 384-dimensional vectors. Larger embedding models may improve quality but usually require more memory and time.\n\nIn a RAG system, the same embedding model should be used for both document chunks and user queries. If documents and queries are embedded with different models, similarity scores may be unreliable.\n"
           },
           {
             "rank": 5,
             "source": "llm_memory.md",
             "chunk_index": 0,
             "score": 0.088,
-            "preview": "# LLM Memory\n\nLLM memory refers to mechanisms that allow a language model application to retain useful information across turns or sessions. The base model itself does not permanently remember a user's information after a conversation unless the application stores that information externally and provides it again as context.\n\nMemory can be short-te"
+            "text": "# LLM Memory\n\nLLM memory refers to mechanisms that allow a language model application to retain useful information across turns or sessions. The base model itself does not permanently remember a user's information after a conversation unless the application stores that information externally and provides it again as context.\n\nMemory can be short-term or long-term. Short-term memory usually means recent conversation history that is placed directly into the prompt. Long-term memory usually means user preferences, prior facts, summaries, or task history stored in a database and retrieved when relevant.\n\nMemory can improve personalization because the assistant can adapt to a user's goals, constraints, and prior choices. For example, a travel assistant might remember that a user prefers morning flights and vegetarian meals. A coding assistant might remember a project's framework, naming conventions, and testing commands.\n\nMemory also creates risks. Stored preferences may become stale, private information must be protected, and irrelevant memories can bias future answers. A good memory system should decide what to store, when to retrieve it, and how to let users inspect or delete remembered information.\n"
           }
         ],
         "latency_ms": 8.83
@@ -236,35 +236,35 @@
             "source": "llm_memory.md",
             "chunk_index": 0,
             "score": 0.79,
-            "preview": "# LLM Memory\n\nLLM memory refers to mechanisms that allow a language model application to retain useful information across turns or sessions. The base model itself does not permanently remember a user's information after a conversation unless the application stores that information externally and provides it again as context.\n\nMemory can be short-te"
+            "text": "# LLM Memory\n\nLLM memory refers to mechanisms that allow a language model application to retain useful information across turns or sessions. The base model itself does not permanently remember a user's information after a conversation unless the application stores that information externally and provides it again as context.\n\nMemory can be short-term or long-term. Short-term memory usually means recent conversation history that is placed directly into the prompt. Long-term memory usually means user preferences, prior facts, summaries, or task history stored in a database and retrieved when relevant.\n\nMemory can improve personalization because the assistant can adapt to a user's goals, constraints, and prior choices. For example, a travel assistant might remember that a user prefers morning flights and vegetarian meals. A coding assistant might remember a project's framework, naming conventions, and testing commands.\n\nMemory also creates risks. Stored preferences may become stale, private information must be protected, and irrelevant memories can bias future answers. A good memory system should decide what to store, when to retrieve it, and how to let users inspect or delete remembered information.\n"
           },
           {
             "rank": 2,
             "source": "recommender_systems.md",
             "chunk_index": 0,
             "score": 0.396,
-            "preview": "# Recommender Systems\n\nRecommender systems help users discover items such as products, movies, articles, or courses. They usually rank candidate items according to predicted user preference. Common approaches include collaborative filtering, content-based recommendation, hybrid models, and sequence-based recommendation.\n\nCollaborative filtering use"
+            "text": "# Recommender Systems\n\nRecommender systems help users discover items such as products, movies, articles, or courses. They usually rank candidate items according to predicted user preference. Common approaches include collaborative filtering, content-based recommendation, hybrid models, and sequence-based recommendation.\n\nCollaborative filtering uses patterns from user-item interactions. If two users have similar histories, items liked by one user may be recommended to the other. Content-based recommendation uses item attributes such as product category, text description, brand, topic, or price.\n\nModern recommender systems often include personalization signals. These can include explicit ratings, clicks, purchases, search queries, dwell time, and user profiles. The system may also use context such as time, device, location, or current session behavior.\n\nEvaluation usually includes offline ranking metrics and online business metrics. Offline metrics include precision, recall, NDCG, and mean reciprocal rank. Online metrics may include click-through rate, conversion rate, revenue, user satisfaction, and long-term retention.\n"
           },
           {
             "rank": 3,
             "source": "personalization_bias.md",
             "chunk_index": 0,
             "score": 0.318,
-            "preview": "# Personalization Bias\n\nPersonalization bias occurs when a system overuses prior user behavior or popularity signals and narrows what the user sees. In recommender systems, this can create filter bubbles where users repeatedly receive similar items and have fewer chances to discover diverse content.\n\nPopularity bias is a common related issue. Popul"
+            "text": "# Personalization Bias\n\nPersonalization bias occurs when a system overuses prior user behavior or popularity signals and narrows what the user sees. In recommender systems, this can create filter bubbles where users repeatedly receive similar items and have fewer chances to discover diverse content.\n\nPopularity bias is a common related issue. Popular items receive more exposure, which produces more interactions, which then makes them appear even more relevant. This feedback loop can make niche or new items difficult to surface even when they match a user's needs.\n\nPersonalization can also amplify social bias if recommendations are based heavily on group-level behavior. A system may infer preferences from similar users and reinforce stereotypes or majority patterns rather than the individual's current intent.\n\nMitigation strategies include diversity-aware ranking, exploration, fairness constraints, debiasing training data, and measuring exposure across item groups. A balanced recommender should remain relevant while still giving users opportunities to discover novel and less popular items.\n"
           },
           {
             "rank": 4,
             "source": "rag_overview.md",
             "chunk_index": 0,
             "score": 0.316,
-            "preview": "# Retrieval-Augmented Generation Overview\n\nRetrieval-Augmented Generation, usually called RAG, is an architecture that combines information retrieval with text generation. Instead of asking a language model to answer only from its internal parameters, a RAG system first searches an external knowledge base and then provides relevant context to the m"
+            "text": "# Retrieval-Augmented Generation Overview\n\nRetrieval-Augmented Generation, usually called RAG, is an architecture that combines information retrieval with text generation. Instead of asking a language model to answer only from its internal parameters, a RAG system first searches an external knowledge base and then provides relevant context to the model.\n\nThe main benefit of RAG is that it can reduce hallucination. The model is instructed to answer from retrieved documents, so factual claims can be grounded in source text. RAG is especially useful when the knowledge changes over time or when the answer must come from a private document collection.\n\nA typical RAG pipeline has two stages. The indexing stage prepares documents by chunking them, embedding each chunk, and storing the vectors in a vector database. The query stage embeds the user question, retrieves similar chunks, constructs a prompt, and sends that prompt to a language model for the final answer.\n"
           },
           {
             "rank": 5,
             "source": "chunking.md",
             "chunk_index": 0,
             "score": 0.286,
-            "preview": "# Document Chunking\n\nDocument chunking is the process of splitting long documents into smaller passages. Chunking matters because embedding models and language models have context limits, and retrieval works better when each indexed item has a focused topic.\n\nCommon chunking strategies include fixed-size chunking, paragraph-based chunking, sentence"
+            "text": "# Document Chunking\n\nDocument chunking is the process of splitting long documents into smaller passages. Chunking matters because embedding models and language models have context limits, and retrieval works better when each indexed item has a focused topic.\n\nCommon chunking strategies include fixed-size chunking, paragraph-based chunking, sentence-boundary chunking, and recursive chunking. Fixed-size chunking is simple but may break ideas in the middle. Paragraph and sentence-aware chunking usually preserves meaning better.\n\nChunk size is a design decision. Small chunks can improve precision because each result is focused, but they may lose surrounding context. Large chunks preserve more context but can reduce retrieval precision. Overlap helps by copying some words from one chunk into the next so that important information near a boundary is not lost.\n\nFor a small class project, a chunk size around 256 to 512 tokens with 40 to 80 tokens of overlap is a reasonable starting point.\n"
           }
         ],
         "latency_ms": 8.98
@@ -309,35 +309,35 @@
             "source": "llm_agents.md",
             "chunk_index": 0,
             "score": 0.644,
-            "preview": "# LLM Agents\n\nAn LLM agent is a system where a language model does more than answer a single prompt. The model can plan steps, choose tools, observe tool results, and continue working toward a goal. The agent loop often follows a pattern such as think, act, observe, and revise.\n\nAgents are useful when a task requires multiple actions. For example, "
+            "text": "# LLM Agents\n\nAn LLM agent is a system where a language model does more than answer a single prompt. The model can plan steps, choose tools, observe tool results, and continue working toward a goal. The agent loop often follows a pattern such as think, act, observe, and revise.\n\nAgents are useful when a task requires multiple actions. For example, an agent might search documents, call a calculator, query a database, summarize findings, and then produce a final answer. Tool use allows the model to access capabilities that are outside its internal knowledge.\n\nA basic agent controller includes a tool registry, a routing or planning method, execution logic, and trace logging. The trace records each step so that developers can debug why the agent selected a tool or produced an answer.\n\nAgent systems need safeguards. They should limit the number of steps, handle tool errors, avoid infinite loops, and keep actions grounded in available observations. For class projects, simple rule-based tool selection is acceptable if the traces clearly show multi-step behavior.\n"
           },
           {
             "rank": 2,
             "source": "llm_memory.md",
             "chunk_index": 0,
             "score": 0.277,
-            "preview": "# LLM Memory\n\nLLM memory refers to mechanisms that allow a language model application to retain useful information across turns or sessions. The base model itself does not permanently remember a user's information after a conversation unless the application stores that information externally and provides it again as context.\n\nMemory can be short-te"
+            "text": "# LLM Memory\n\nLLM memory refers to mechanisms that allow a language model application to retain useful information across turns or sessions. The base model itself does not permanently remember a user's information after a conversation unless the application stores that information externally and provides it again as context.\n\nMemory can be short-term or long-term. Short-term memory usually means recent conversation history that is placed directly into the prompt. Long-term memory usually means user preferences, prior facts, summaries, or task history stored in a database and retrieved when relevant.\n\nMemory can improve personalization because the assistant can adapt to a user's goals, constraints, and prior choices. For example, a travel assistant might remember that a user prefers morning flights and vegetarian meals. A coding assistant might remember a project's framework, naming conventions, and testing commands.\n\nMemory also creates risks. Stored preferences may become stale, private information must be protected, and irrelevant memories can bias future answers. A good memory system should decide what to store, when to retrieve it, and how to let users inspect or delete remembered information.\n"
           },
           {
             "rank": 3,
             "source": "rag_overview.md",
             "chunk_index": 0,
             "score": 0.26,
-            "preview": "# Retrieval-Augmented Generation Overview\n\nRetrieval-Augmented Generation, usually called RAG, is an architecture that combines information retrieval with text generation. Instead of asking a language model to answer only from its internal parameters, a RAG system first searches an external knowledge base and then provides relevant context to the m"
+            "text": "# Retrieval-Augmented Generation Overview\n\nRetrieval-Augmented Generation, usually called RAG, is an architecture that combines information retrieval with text generation. Instead of asking a language model to answer only from its internal parameters, a RAG system first searches an external knowledge base and then provides relevant context to the model.\n\nThe main benefit of RAG is that it can reduce hallucination. The model is instructed to answer from retrieved documents, so factual claims can be grounded in source text. RAG is especially useful when the knowledge changes over time or when the answer must come from a private document collection.\n\nA typical RAG pipeline has two stages. The indexing stage prepares documents by chunking them, embedding each chunk, and storing the vectors in a vector database. The query stage embeds the user question, retrieves similar chunks, constructs a prompt, and sends that prompt to a language model for the final answer.\n"
           },
           {
             "rank": 4,
             "source": "recommender_systems.md",
             "chunk_index": 0,
             "score": 0.209,
-            "preview": "# Recommender Systems\n\nRecommender systems help users discover items such as products, movies, articles, or courses. They usually rank candidate items according to predicted user preference. Common approaches include collaborative filtering, content-based recommendation, hybrid models, and sequence-based recommendation.\n\nCollaborative filtering use"
+            "text": "# Recommender Systems\n\nRecommender systems help users discover items such as products, movies, articles, or courses. They usually rank candidate items according to predicted user preference. Common approaches include collaborative filtering, content-based recommendation, hybrid models, and sequence-based recommendation.\n\nCollaborative filtering uses patterns from user-item interactions. If two users have similar histories, items liked by one user may be recommended to the other. Content-based recommendation uses item attributes such as product category, text description, brand, topic, or price.\n\nModern recommender systems often include personalization signals. These can include explicit ratings, clicks, purchases, search queries, dwell time, and user profiles. The system may also use context such as time, device, location, or current session behavior.\n\nEvaluation usually includes offline ranking metrics and online business metrics. Offline metrics include precision, recall, NDCG, and mean reciprocal rank. Online metrics may include click-through rate, conversion rate, revenue, user satisfaction, and long-term retention.\n"
           },
           {
             "rank": 5,
             "source": "local_llm.md",
             "chunk_index": 0,
             "score": 0.19,
-            "preview": "# Local LLM with Ollama and Qwen\n\nOllama is a local model runtime that can download and serve open-source language models. It provides a local HTTP API, usually at http://localhost:11434. A Python RAG program can send prompts to Ollama and receive generated answers.\n\nQwen2.5-7B-Instruct is an instruction-tuned open-source language model. In this pr"
+            "text": "# Local LLM with Ollama and Qwen\n\nOllama is a local model runtime that can download and serve open-source language models. It provides a local HTTP API, usually at http://localhost:11434. A Python RAG program can send prompts to Ollama and receive generated answers.\n\nQwen2.5-7B-Instruct is an instruction-tuned open-source language model. In this project, Qwen is the model used for answer generation, and Ollama is the tool used to run the model locally. The Ollama model name is commonly qwen2.5:7b.\n\nUsing a local model satisfies the self-hosted requirement because the prompt and documents are processed on the user's machine. The trade-off is that generation can be slower than hosted APIs, especially on machines with limited memory or no GPU acceleration.\n"
           }
         ],
         "latency_ms": 8.43
@@ -382,35 +382,35 @@
             "source": "local_llm.md",
             "chunk_index": 0,
             "score": 0.58,
-            "preview": "# Local LLM with Ollama and Qwen\n\nOllama is a local model runtime that can download and serve open-source language models. It provides a local HTTP API, usually at http://localhost:11434. A Python RAG program can send prompts to Ollama and receive generated answers.\n\nQwen2.5-7B-Instruct is an instruction-tuned open-source language model. In this pr"
+            "text": "# Local LLM with Ollama and Qwen\n\nOllama is a local model runtime that can download and serve open-source language models. It provides a local HTTP API, usually at http://localhost:11434. A Python RAG program can send prompts to Ollama and receive generated answers.\n\nQwen2.5-7B-Instruct is an instruction-tuned open-source language model. In this project, Qwen is the model used for answer generation, and Ollama is the tool used to run the model locally. The Ollama model name is commonly qwen2.5:7b.\n\nUsing a local model satisfies the self-hosted requirement because the prompt and documents are processed on the user's machine. The trade-off is that generation can be slower than hosted APIs, especially on machines with limited memory or no GPU acceleration.\n"
           },
           {
             "rank": 2,
             "source": "rag_overview.md",
             "chunk_index": 0,
             "score": 0.137,
-            "preview": "# Retrieval-Augmented Generation Overview\n\nRetrieval-Augmented Generation, usually called RAG, is an architecture that combines information retrieval with text generation. Instead of asking a language model to answer only from its internal parameters, a RAG system first searches an external knowledge base and then provides relevant context to the m"
+            "text": "# Retrieval-Augmented Generation Overview\n\nRetrieval-Augmented Generation, usually called RAG, is an architecture that combines information retrieval with text generation. Instead of asking a language model to answer only from its internal parameters, a RAG system first searches an external knowledge base and then provides relevant context to the model.\n\nThe main benefit of RAG is that it can reduce hallucination. The model is instructed to answer from retrieved documents, so factual claims can be grounded in source text. RAG is especially useful when the knowledge changes over time or when the answer must come from a private document collection.\n\nA typical RAG pipeline has two stages. The indexing stage prepares documents by chunking them, embedding each chunk, and storing the vectors in a vector database. The query stage embeds the user question, retrieves similar chunks, constructs a prompt, and sends that prompt to a language model for the final answer.\n"
           },
           {
             "rank": 3,
             "source": "llm_agents.md",
             "chunk_index": 0,
             "score": 0.089,
-            "preview": "# LLM Agents\n\nAn LLM agent is a system where a language model does more than answer a single prompt. The model can plan steps, choose tools, observe tool results, and continue working toward a goal. The agent loop often follows a pattern such as think, act, observe, and revise.\n\nAgents are useful when a task requires multiple actions. For example, "
+            "text": "# LLM Agents\n\nAn LLM agent is a system where a language model does more than answer a single prompt. The model can plan steps, choose tools, observe tool results, and continue working toward a goal. The agent loop often follows a pattern such as think, act, observe, and revise.\n\nAgents are useful when a task requires multiple actions. For example, an agent might search documents, call a calculator, query a database, summarize findings, and then produce a final answer. Tool use allows the model to access capabilities that are outside its internal knowledge.\n\nA basic agent controller includes a tool registry, a routing or planning method, execution logic, and trace logging. The trace records each step so that developers can debug why the agent selected a tool or produced an answer.\n\nAgent systems need safeguards. They should limit the number of steps, handle tool errors, avoid infinite loops, and keep actions grounded in available observations. For class projects, simple rule-based tool selection is acceptable if the traces clearly show multi-step behavior.\n"
           },
           {
             "rank": 4,
             "source": "llm_memory.md",
             "chunk_index": 0,
             "score": 0.071,
-            "preview": "# LLM Memory\n\nLLM memory refers to mechanisms that allow a language model application to retain useful information across turns or sessions. The base model itself does not permanently remember a user's information after a conversation unless the application stores that information externally and provides it again as context.\n\nMemory can be short-te"
+            "text": "# LLM Memory\n\nLLM memory refers to mechanisms that allow a language model application to retain useful information across turns or sessions. The base model itself does not permanently remember a user's information after a conversation unless the application stores that information externally and provides it again as context.\n\nMemory can be short-term or long-term. Short-term memory usually means recent conversation history that is placed directly into the prompt. Long-term memory usually means user preferences, prior facts, summaries, or task history stored in a database and retrieved when relevant.\n\nMemory can improve personalization because the assistant can adapt to a user's goals, constraints, and prior choices. For example, a travel assistant might remember that a user prefers morning flights and vegetarian meals. A coding assistant might remember a project's framework, naming conventions, and testing commands.\n\nMemory also creates risks. Stored preferences may become stale, private information must be protected, and irrelevant memories can bias future answers. A good memory system should decide what to store, when to retrieve it, and how to let users inspect or delete remembered information.\n"
           },
           {
             "rank": 5,
             "source": "grounding.md",
             "chunk_index": 0,
             "score": 0.058,
-            "preview": "# Grounded Answer Generation\n\nGrounding means constraining a language model answer to the retrieved context. A grounded RAG prompt should include the user question, the retrieved context, and clear instructions that the model must only use the provided context.\n\nSource attribution is important because it allows users to verify claims. A prompt can "
+            "text": "# Grounded Answer Generation\n\nGrounding means constraining a language model answer to the retrieved context. A grounded RAG prompt should include the user question, the retrieved context, and clear instructions that the model must only use the provided context.\n\nSource attribution is important because it allows users to verify claims. A prompt can label each retrieved chunk with a source name and chunk number. The model can then cite the source when answering.\n\nIf the retrieved context does not contain enough information, the model should say that the context is insufficient. This behavior is better than inventing an answer. In evaluation, unsupported claims are counted as hallucinations even if they sound plausible.\n"
           }
         ],
         "latency_ms": 11.54
@@ -455,35 +455,35 @@
             "source": "recommender_systems.md",
             "chunk_index": 0,
             "score": 0.721,
-            "preview": "# Recommender Systems\n\nRecommender systems help users discover items such as products, movies, articles, or courses. They usually rank candidate items according to predicted user preference. Common approaches include collaborative filtering, content-based recommendation, hybrid models, and sequence-based recommendation.\n\nCollaborative filtering use"
+            "text": "# Recommender Systems\n\nRecommender systems help users discover items such as products, movies, articles, or courses. They usually rank candidate items according to predicted user preference. Common approaches include collaborative filtering, content-based recommendation, hybrid models, and sequence-based recommendation.\n\nCollaborative filtering uses patterns from user-item interactions. If two users have similar histories, items liked by one user may be recommended to the other. Content-based recommendation uses item attributes such as product category, text description, brand, topic, or price.\n\nModern recommender systems often include personalization signals. These can include explicit ratings, clicks, purchases, search queries, dwell time, and user profiles. The system may also use context such as time, device, location, or current session behavior.\n\nEvaluation usually includes offline ranking metrics and online business metrics. Offline metrics include precision, recall, NDCG, and mean reciprocal rank. Online metrics may include click-through rate, conversion rate, revenue, user satisfaction, and long-term retention.\n"
           },
           {
             "rank": 2,
             "source": "personalization_bias.md",
             "chunk_index": 0,
             "score": 0.566,
-            "preview": "# Personalization Bias\n\nPersonalization bias occurs when a system overuses prior user behavior or popularity signals and narrows what the user sees. In recommender systems, this can create filter bubbles where users repeatedly receive similar items and have fewer chances to discover diverse content.\n\nPopularity bias is a common related issue. Popul"
+            "text": "# Personalization Bias\n\nPersonalization bias occurs when a system overuses prior user behavior or popularity signals and narrows what the user sees. In recommender systems, this can create filter bubbles where users repeatedly receive similar items and have fewer chances to discover diverse content.\n\nPopularity bias is a common related issue. Popular items receive more exposure, which produces more interactions, which then makes them appear even more relevant. This feedback loop can make niche or new items difficult to surface even when they match a user's needs.\n\nPersonalization can also amplify social bias if recommendations are based heavily on group-level behavior. A system may infer preferences from similar users and reinforce stereotypes or majority patterns rather than the individual's current intent.\n\nMitigation strategies include diversity-aware ranking, exploration, fairness constraints, debiasing training data, and measuring exposure across item groups. A balanced recommender should remain relevant while still giving users opportunities to discover novel and less popular items.\n"
           },
           {
             "rank": 3,
             "source": "vector_databases.md",
             "chunk_index": 0,
             "score": 0.275,
-            "preview": "# Vector Databases\n\nA vector database stores embedding vectors and supports nearest-neighbor search. When a user asks a question, the question is embedded and compared against stored document chunk embeddings. The database returns the top-k most similar chunks.\n\nFAISS is a popular library for vector similarity search. For small datasets, an exact F"
+            "text": "# Vector Databases\n\nA vector database stores embedding vectors and supports nearest-neighbor search. When a user asks a question, the question is embedded and compared against stored document chunk embeddings. The database returns the top-k most similar chunks.\n\nFAISS is a popular library for vector similarity search. For small datasets, an exact FAISS index such as IndexFlatIP or IndexFlatL2 is simple and reliable. For larger datasets, approximate indexes can improve speed by trading off a small amount of accuracy.\n\nChroma is another vector database option. It provides persistence and metadata filtering in a higher-level interface. FAISS is useful for learning because it exposes the vector search step clearly.\n\nThe top-k setting controls how many chunks are passed into the prompt. A small k can miss relevant evidence. A large k can add noise and increase generation latency.\n"
           },
           {
             "rank": 4,
             "source": "rag_overview.md",
             "chunk_index": 0,
             "score": 0.197,
-            "preview": "# Retrieval-Augmented Generation Overview\n\nRetrieval-Augmented Generation, usually called RAG, is an architecture that combines information retrieval with text generation. Instead of asking a language model to answer only from its internal parameters, a RAG system first searches an external knowledge base and then provides relevant context to the m"
+            "text": "# Retrieval-Augmented Generation Overview\n\nRetrieval-Augmented Generation, usually called RAG, is an architecture that combines information retrieval with text generation. Instead of asking a language model to answer only from its internal parameters, a RAG system first searches an external knowledge base and then provides relevant context to the model.\n\nThe main benefit of RAG is that it can reduce hallucination. The model is instructed to answer from retrieved documents, so factual claims can be grounded in source text. RAG is especially useful when the knowledge changes over time or when the answer must come from a private document collection.\n\nA typical RAG pipeline has two stages. The indexing stage prepares documents by chunking them, embedding each chunk, and storing the vectors in a vector database. The query stage embeds the user question, retrieves similar chunks, constructs a prompt, and sends that prompt to a language model for the final answer.\n"
           },
           {
             "rank": 5,
             "source": "llm_memory.md",
             "chunk_index": 0,
             "score": 0.191,
-            "preview": "# LLM Memory\n\nLLM memory refers to mechanisms that allow a language model application to retain useful information across turns or sessions. The base model itself does not permanently remember a user's information after a conversation unless the application stores that information externally and provides it again as context.\n\nMemory can be short-te"
+            "text": "# LLM Memory\n\nLLM memory refers to mechanisms that allow a language model application to retain useful information across turns or sessions. The base model itself does not permanently remember a user's information after a conversation unless the application stores that information externally and provides it again as context.\n\nMemory can be short-term or long-term. Short-term memory usually means recent conversation history that is placed directly into the prompt. Long-term memory usually means user preferences, prior facts, summaries, or task history stored in a database and retrieved when relevant.\n\nMemory can improve personalization because the assistant can adapt to a user's goals, constraints, and prior choices. For example, a travel assistant might remember that a user prefers morning flights and vegetarian meals. A coding assistant might remember a project's framework, naming conventions, and testing commands.\n\nMemory also creates risks. Stored preferences may become stale, private information must be protected, and irrelevant memories can bias future answers. A good memory system should decide what to store, when to retrieve it, and how to let users inspect or delete remembered information.\n"
           }
         ],
         "latency_ms": 8.74
@@ -528,35 +528,35 @@
             "source": "personalization_bias.md",
             "chunk_index": 0,
             "score": 0.74,
-            "preview": "# Personalization Bias\n\nPersonalization bias occurs when a system overuses prior user behavior or popularity signals and narrows what the user sees. In recommender systems, this can create filter bubbles where users repeatedly receive similar items and have fewer chances to discover diverse content.\n\nPopularity bias is a common related issue. Popul"
+            "text": "# Personalization Bias\n\nPersonalization bias occurs when a system overuses prior user behavior or popularity signals and narrows what the user sees. In recommender systems, this can create filter bubbles where users repeatedly receive similar items and have fewer chances to discover diverse content.\n\nPopularity bias is a common related issue. Popular items receive more exposure, which produces more interactions, which then makes them appear even more relevant. This feedback loop can make niche or new items difficult to surface even when they match a user's needs.\n\nPersonalization can also amplify social bias if recommendations are based heavily on group-level behavior. A system may infer preferences from similar users and reinforce stereotypes or majority patterns rather than the individual's current intent.\n\nMitigation strategies include diversity-aware ranking, exploration, fairness constraints, debiasing training data, and measuring exposure across item groups. A balanced recommender should remain relevant while still giving users opportunities to discover novel and less popular items.\n"
           },
           {
             "rank": 2,
             "source": "recommender_systems.md",
             "chunk_index": 0,
             "score": 0.564,
-            "preview": "# Recommender Systems\n\nRecommender systems help users discover items such as products, movies, articles, or courses. They usually rank candidate items according to predicted user preference. Common approaches include collaborative filtering, content-based recommendation, hybrid models, and sequence-based recommendation.\n\nCollaborative filtering use"
+            "text": "# Recommender Systems\n\nRecommender systems help users discover items such as products, movies, articles, or courses. They usually rank candidate items according to predicted user preference. Common approaches include collaborative filtering, content-based recommendation, hybrid models, and sequence-based recommendation.\n\nCollaborative filtering uses patterns from user-item interactions. If two users have similar histories, items liked by one user may be recommended to the other. Content-based recommendation uses item attributes such as product category, text description, brand, topic, or price.\n\nModern recommender systems often include personalization signals. These can include explicit ratings, clicks, purchases, search queries, dwell time, and user profiles. The system may also use context such as time, device, location, or current session behavior.\n\nEvaluation usually includes offline ranking metrics and online business metrics. Offline metrics include precision, recall, NDCG, and mean reciprocal rank. Online metrics may include click-through rate, conversion rate, revenue, user satisfaction, and long-term retention.\n"
           },
           {
             "rank": 3,
             "source": "llm_memory.md",
             "chunk_index": 0,
             "score": 0.266,
-            "preview": "# LLM Memory\n\nLLM memory refers to mechanisms that allow a language model application to retain useful information across turns or sessions. The base model itself does not permanently remember a user's information after a conversation unless the application stores that information externally and provides it again as context.\n\nMemory can be short-te"
+            "text": "# LLM Memory\n\nLLM memory refers to mechanisms that allow a language model application to retain useful information across turns or sessions. The base model itself does not permanently remember a user's information after a conversation unless the application stores that information externally and provides it again as context.\n\nMemory can be short-term or long-term. Short-term memory usually means recent conversation history that is placed directly into the prompt. Long-term memory usually means user preferences, prior facts, summaries, or task history stored in a database and retrieved when relevant.\n\nMemory can improve personalization because the assistant can adapt to a user's goals, constraints, and prior choices. For example, a travel assistant might remember that a user prefers morning flights and vegetarian meals. A coding assistant might remember a project's framework, naming conventions, and testing commands.\n\nMemory also creates risks. Stored preferences may become stale, private information must be protected, and irrelevant memories can bias future answers. A good memory system should decide what to store, when to retrieve it, and how to let users inspect or delete remembered information.\n"
           },
           {
             "rank": 4,
             "source": "chunking.md",
             "chunk_index": 0,
             "score": 0.242,
-            "preview": "# Document Chunking\n\nDocument chunking is the process of splitting long documents into smaller passages. Chunking matters because embedding models and language models have context limits, and retrieval works better when each indexed item has a focused topic.\n\nCommon chunking strategies include fixed-size chunking, paragraph-based chunking, sentence"
+            "text": "# Document Chunking\n\nDocument chunking is the process of splitting long documents into smaller passages. Chunking matters because embedding models and language models have context limits, and retrieval works better when each indexed item has a focused topic.\n\nCommon chunking strategies include fixed-size chunking, paragraph-based chunking, sentence-boundary chunking, and recursive chunking. Fixed-size chunking is simple but may break ideas in the middle. Paragraph and sentence-aware chunking usually preserves meaning better.\n\nChunk size is a design decision. Small chunks can improve precision because each result is focused, but they may lose surrounding context. Large chunks preserve more context but can reduce retrieval precision. Overlap helps by copying some words from one chunk into the next so that important information near a boundary is not lost.\n\nFor a small class project, a chunk size around 256 to 512 tokens with 40 to 80 tokens of overlap is a reasonable starting point.\n"
           },
           {
             "rank": 5,
             "source": "embeddings.md",
             "chunk_index": 0,
             "score": 0.229,
-            "preview": "# Embedding Models\n\nEmbedding models convert text into dense numerical vectors. Texts with similar meanings should have vectors that are close to each other in the embedding space. This makes it possible to search by semantic meaning instead of exact keyword overlap.\n\nSentence-transformers is a common Python library for generating text embeddings. "
+            "text": "# Embedding Models\n\nEmbedding models convert text into dense numerical vectors. Texts with similar meanings should have vectors that are close to each other in the embedding space. This makes it possible to search by semantic meaning instead of exact keyword overlap.\n\nSentence-transformers is a common Python library for generating text embeddings. The model all-MiniLM-L6-v2 is often used for prototypes because it is small, fast, and produces 384-dimensional vectors. Larger embedding models may improve quality but usually require more memory and time.\n\nIn a RAG system, the same embedding model should be used for both document chunks and user queries. If documents and queries are embedded with different models, similarity scores may be unreliable.\n"
           }
         ],
         "latency_ms": 8.54
@@ -601,35 +601,35 @@
             "source": "vector_databases.md",
             "chunk_index": 0,
             "score": 0.633,
-            "preview": "# Vector Databases\n\nA vector database stores embedding vectors and supports nearest-neighbor search. When a user asks a question, the question is embedded and compared against stored document chunk embeddings. The database returns the top-k most similar chunks.\n\nFAISS is a popular library for vector similarity search. For small datasets, an exact F"
+            "text": "# Vector Databases\n\nA vector database stores embedding vectors and supports nearest-neighbor search. When a user asks a question, the question is embedded and compared against stored document chunk embeddings. The database returns the top-k most similar chunks.\n\nFAISS is a popular library for vector similarity search. For small datasets, an exact FAISS index such as IndexFlatIP or IndexFlatL2 is simple and reliable. For larger datasets, approximate indexes can improve speed by trading off a small amount of accuracy.\n\nChroma is another vector database option. It provides persistence and metadata filtering in a higher-level interface. FAISS is useful for learning because it exposes the vector search step clearly.\n\nThe top-k setting controls how many chunks are passed into the prompt. A small k can miss relevant evidence. A large k can add noise and increase generation latency.\n"
           },
           {
             "rank": 2,
             "source": "rag_overview.md",
             "chunk_index": 0,
             "score": 0.347,
-            "preview": "# Retrieval-Augmented Generation Overview\n\nRetrieval-Augmented Generation, usually called RAG, is an architecture that combines information retrieval with text generation. Instead of asking a language model to answer only from its internal parameters, a RAG system first searches an external knowledge base and then provides relevant context to the m"
+            "text": "# Retrieval-Augmented Generation Overview\n\nRetrieval-Augmented Generation, usually called RAG, is an architecture that combines information retrieval with text generation. Instead of asking a language model to answer only from its internal parameters, a RAG system first searches an external knowledge base and then provides relevant context to the model.\n\nThe main benefit of RAG is that it can reduce hallucination. The model is instructed to answer from retrieved documents, so factual claims can be grounded in source text. RAG is especially useful when the knowledge changes over time or when the answer must come from a private document collection.\n\nA typical RAG pipeline has two stages. The indexing stage prepares documents by chunking them, embedding each chunk, and storing the vectors in a vector database. The query stage embeds the user question, retrieves similar chunks, constructs a prompt, and sends that prompt to a language model for the final answer.\n"
           },
           {
             "rank": 3,
             "source": "embeddings.md",
             "chunk_index": 0,
             "score": 0.28,
-            "preview": "# Embedding Models\n\nEmbedding models convert text into dense numerical vectors. Texts with similar meanings should have vectors that are close to each other in the embedding space. This makes it possible to search by semantic meaning instead of exact keyword overlap.\n\nSentence-transformers is a common Python library for generating text embeddings. "
+            "text": "# Embedding Models\n\nEmbedding models convert text into dense numerical vectors. Texts with similar meanings should have vectors that are close to each other in the embedding space. This makes it possible to search by semantic meaning instead of exact keyword overlap.\n\nSentence-transformers is a common Python library for generating text embeddings. The model all-MiniLM-L6-v2 is often used for prototypes because it is small, fast, and produces 384-dimensional vectors. Larger embedding models may improve quality but usually require more memory and time.\n\nIn a RAG system, the same embedding model should be used for both document chunks and user queries. If documents and queries are embedded with different models, similarity scores may be unreliable.\n"
           },
           {
             "rank": 4,
             "source": "local_llm.md",
             "chunk_index": 0,
             "score": 0.229,
-            "preview": "# Local LLM with Ollama and Qwen\n\nOllama is a local model runtime that can download and serve open-source language models. It provides a local HTTP API, usually at http://localhost:11434. A Python RAG program can send prompts to Ollama and receive generated answers.\n\nQwen2.5-7B-Instruct is an instruction-tuned open-source language model. In this pr"
+            "text": "# Local LLM with Ollama and Qwen\n\nOllama is a local model runtime that can download and serve open-source language models. It provides a local HTTP API, usually at http://localhost:11434. A Python RAG program can send prompts to Ollama and receive generated answers.\n\nQwen2.5-7B-Instruct is an instruction-tuned open-source language model. In this project, Qwen is the model used for answer generation, and Ollama is the tool used to run the model locally. The Ollama model name is commonly qwen2.5:7b.\n\nUsing a local model satisfies the self-hosted requirement because the prompt and documents are processed on the user's machine. The trade-off is that generation can be slower than hosted APIs, especially on machines with limited memory or no GPU acceleration.\n"
           },
           {
             "rank": 5,
             "source": "recommender_systems.md",
             "chunk_index": 0,
             "score": 0.208,
-            "preview": "# Recommender Systems\n\nRecommender systems help users discover items such as products, movies, articles, or courses. They usually rank candidate items according to predicted user preference. Common approaches include collaborative filtering, content-based recommendation, hybrid models, and sequence-based recommendation.\n\nCollaborative filtering use"
+            "text": "# Recommender Systems\n\nRecommender systems help users discover items such as products, movies, articles, or courses. They usually rank candidate items according to predicted user preference. Common approaches include collaborative filtering, content-based recommendation, hybrid models, and sequence-based recommendation.\n\nCollaborative filtering uses patterns from user-item interactions. If two users have similar histories, items liked by one user may be recommended to the other. Content-based recommendation uses item attributes such as product category, text description, brand, topic, or price.\n\nModern recommender systems often include personalization signals. These can include explicit ratings, clicks, purchases, search queries, dwell time, and user profiles. The system may also use context such as time, device, location, or current session behavior.\n\nEvaluation usually includes offline ranking metrics and online business metrics. Offline metrics include precision, recall, NDCG, and mean reciprocal rank. Online metrics may include click-through rate, conversion rate, revenue, user satisfaction, and long-term retention.\n"
           }
         ],
         "latency_ms": 8.37
@@ -674,35 +674,35 @@
             "source": "rag_overview.md",
             "chunk_index": 0,
             "score": 0.341,
-            "preview": "# Retrieval-Augmented Generation Overview\n\nRetrieval-Augmented Generation, usually called RAG, is an architecture that combines information retrieval with text generation. Instead of asking a language model to answer only from its internal parameters, a RAG system first searches an external knowledge base and then provides relevant context to the m"
+            "text": "# Retrieval-Augmented Generation Overview\n\nRetrieval-Augmented Generation, usually called RAG, is an architecture that combines information retrieval with text generation. Instead of asking a language model to answer only from its internal parameters, a RAG system first searches an external knowledge base and then provides relevant context to the model.\n\nThe main benefit of RAG is that it can reduce hallucination. The model is instructed to answer from retrieved documents, so factual claims can be grounded in source text. RAG is especially useful when the knowledge changes over time or when the answer must come from a private document collection.\n\nA typical RAG pipeline has two stages. The indexing stage prepares documents by chunking them, embedding each chunk, and storing the vectors in a vector database. The query stage embeds the user question, retrieves similar chunks, constructs a prompt, and sends that prompt to a language model for the final answer.\n"
           },
           {
             "rank": 2,
             "source": "local_llm.md",
             "chunk_index": 0,
             "score": 0.227,
-            "preview": "# Local LLM with Ollama and Qwen\n\nOllama is a local model runtime that can download and serve open-source language models. It provides a local HTTP API, usually at http://localhost:11434. A Python RAG program can send prompts to Ollama and receive generated answers.\n\nQwen2.5-7B-Instruct is an instruction-tuned open-source language model. In this pr"
+            "text": "# Local LLM with Ollama and Qwen\n\nOllama is a local model runtime that can download and serve open-source language models. It provides a local HTTP API, usually at http://localhost:11434. A Python RAG program can send prompts to Ollama and receive generated answers.\n\nQwen2.5-7B-Instruct is an instruction-tuned open-source language model. In this project, Qwen is the model used for answer generation, and Ollama is the tool used to run the model locally. The Ollama model name is commonly qwen2.5:7b.\n\nUsing a local model satisfies the self-hosted requirement because the prompt and documents are processed on the user's machine. The trade-off is that generation can be slower than hosted APIs, especially on machines with limited memory or no GPU acceleration.\n"
           },
           {
             "rank": 3,
             "source": "grounding.md",
             "chunk_index": 0,
             "score": 0.134,
-            "preview": "# Grounded Answer Generation\n\nGrounding means constraining a language model answer to the retrieved context. A grounded RAG prompt should include the user question, the retrieved context, and clear instructions that the model must only use the provided context.\n\nSource attribution is important because it allows users to verify claims. A prompt can "
+            "text": "# Grounded Answer Generation\n\nGrounding means constraining a language model answer to the retrieved context. A grounded RAG prompt should include the user question, the retrieved context, and clear instructions that the model must only use the provided context.\n\nSource attribution is important because it allows users to verify claims. A prompt can label each retrieved chunk with a source name and chunk number. The model can then cite the source when answering.\n\nIf the retrieved context does not contain enough information, the model should say that the context is insufficient. This behavior is better than inventing an answer. In evaluation, unsupported claims are counted as hallucinations even if they sound plausible.\n"
           },
           {
             "rank": 4,
             "source": "llm_agents.md",
             "chunk_index": 0,
             "score": 0.117,
-            "preview": "# LLM Agents\n\nAn LLM agent is a system where a language model does more than answer a single prompt. The model can plan steps, choose tools, observe tool results, and continue working toward a goal. The agent loop often follows a pattern such as think, act, observe, and revise.\n\nAgents are useful when a task requires multiple actions. For example, "
+            "text": "# LLM Agents\n\nAn LLM agent is a system where a language model does more than answer a single prompt. The model can plan steps, choose tools, observe tool results, and continue working toward a goal. The agent loop often follows a pattern such as think, act, observe, and revise.\n\nAgents are useful when a task requires multiple actions. For example, an agent might search documents, call a calculator, query a database, summarize findings, and then produce a final answer. Tool use allows the model to access capabilities that are outside its internal knowledge.\n\nA basic agent controller includes a tool registry, a routing or planning method, execution logic, and trace logging. The trace records each step so that developers can debug why the agent selected a tool or produced an answer.\n\nAgent systems need safeguards. They should limit the number of steps, handle tool errors, avoid infinite loops, and keep actions grounded in available observations. For class projects, simple rule-based tool selection is acceptable if the traces clearly show multi-step behavior.\n"
           },
           {
             "rank": 5,
             "source": "embeddings.md",
             "chunk_index": 0,
             "score": 0.081,
-            "preview": "# Embedding Models\n\nEmbedding models convert text into dense numerical vectors. Texts with similar meanings should have vectors that are close to each other in the embedding space. This makes it possible to search by semantic meaning instead of exact keyword overlap.\n\nSentence-transformers is a common Python library for generating text embeddings. "
+            "text": "# Embedding Models\n\nEmbedding models convert text into dense numerical vectors. Texts with similar meanings should have vectors that are close to each other in the embedding space. This makes it possible to search by semantic meaning instead of exact keyword overlap.\n\nSentence-transformers is a common Python library for generating text embeddings. The model all-MiniLM-L6-v2 is often used for prototypes because it is small, fast, and produces 384-dimensional vectors. Larger embedding models may improve quality but usually require more memory and time.\n\nIn a RAG system, the same embedding model should be used for both document chunks and user queries. If documents and queries are embedded with different models, similarity scores may be unreliable.\n"
           }
         ],
         "latency_ms": 9.5

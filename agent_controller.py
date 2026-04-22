@@ -143,7 +143,7 @@ def compact_retrieval_output(chunks: list[RetrievedChunk]) -> list[dict[str, Any
             "source": chunk.source,
             "chunk_index": chunk.chunk_index,
             "score": round(chunk.score, 3),
-            "preview": chunk.text[:350],
+            "text": chunk.text,
         }
         for chunk in chunks
     ]
@@ -479,9 +479,10 @@ def write_agent_summary(traces: list[AgentTrace], output_dir: Path) -> Path:
     rows = []
     for trace in traces:
         tools = " -> ".join(step.tool for step in trace.steps)
+        summary = summarize_final_answer(trace.final_answer)
         rows.append(
             f"| {trace.task_id} | {tools} | {trace.total_latency_ms:.2f} | "
-            f"{trace.final_answer[:120].replace('|', '/') }... |"
+            f"{summary.replace('|', '/') } |"
         )
 
     summary = [
@@ -495,6 +496,13 @@ def write_agent_summary(traces: list[AgentTrace], output_dir: Path) -> Path:
     path = output_dir / "trace_summary.md"
     path.write_text("\n".join(summary), encoding="utf-8")
     return path
+
+
+def summarize_final_answer(answer: str) -> str:
+    """Create a complete one-sentence summary for trace_summary.md."""
+    cleaned = " ".join(answer.split())
+    first_sentence = re.split(r"(?<=[.!?])\s+", cleaned)[0]
+    return first_sentence if first_sentence else "Final answer completed; see all_traces.json for details."
 
 
 def main() -> None:
