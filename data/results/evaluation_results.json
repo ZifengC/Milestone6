@@ -1,0 +1,266 @@
+{
+  "config": {
+    "llm": "qwen2.5:7b",
+    "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "vector_database": "FAISS IndexFlatIP with normalized embeddings",
+    "chunk_tokens": 320,
+    "overlap_tokens": 60,
+    "top_k": 5,
+    "chunk_count": 10,
+    "generation_skipped": false
+  },
+  "summary": {
+    "average_precision_at_k": 0.22,
+    "average_recall_at_k": 1.0,
+    "timings": {
+      "load_documents_ms": {
+        "count": 1,
+        "total_ms": 0.6,
+        "avg_ms": 0.6
+      },
+      "chunking_ms": {
+        "count": 1,
+        "total_ms": 0.34,
+        "avg_ms": 0.34
+      },
+      "embedding_ms": {
+        "count": 1,
+        "total_ms": 257.13,
+        "avg_ms": 257.13
+      },
+      "indexing_ms": {
+        "count": 1,
+        "total_ms": 0.12,
+        "avg_ms": 0.12
+      },
+      "retrieval_ms": {
+        "count": 10,
+        "total_ms": 152.61,
+        "avg_ms": 15.26
+      },
+      "generation_ms": {
+        "count": 10,
+        "total_ms": 28986.31,
+        "avg_ms": 2898.63
+      },
+      "total_query_ms": {
+        "count": 10,
+        "total_ms": 29142.28,
+        "avg_ms": 2914.23
+      }
+    }
+  },
+  "results": [
+    {
+      "id": "q1",
+      "query": "What are the two stages of a RAG pipeline?",
+      "relevant_sources": [
+        "rag_overview.md"
+      ],
+      "retrieved_sources": [
+        "rag_overview.md",
+        "grounding.md",
+        "llm_agents.md",
+        "chunking.md",
+        "embeddings.md"
+      ],
+      "precision_at_k": 0.2,
+      "recall_at_k": 1.0,
+      "answer": "The two stages of a RAG pipeline are:\n\n1. The indexing stage, which prepares documents by chunking them, embedding each chunk, and storing the vectors in a vector database.\n2. The query stage, which embeds the user question, retrieves similar chunks, constructs a prompt, and sends that prompt to a language model for the final answer.\n\nSource: [Source: rag_overview.md, chunk 0, score 0.414]",
+      "groundedness_proxy": {
+        "score": 0.778,
+        "note": "Automatic lexical proxy only; final groundedness should be checked manually."
+      }
+    },
+    {
+      "id": "q2",
+      "query": "Why does RAG reduce hallucination?",
+      "relevant_sources": [
+        "rag_overview.md",
+        "grounding.md"
+      ],
+      "retrieved_sources": [
+        "rag_overview.md",
+        "grounding.md",
+        "personalization_bias.md",
+        "llm_memory.md",
+        "embeddings.md"
+      ],
+      "precision_at_k": 0.4,
+      "recall_at_k": 1.0,
+      "answer": "RAG reduces hallucination because it instructs the model to answer based on retrieved documents from an external knowledge base. This means that factual claims can be grounded in source text rather than being generated solely from the model's internal parameters. By using retrieved context, the model is less likely to make up information that is not supported by any evidence, thus reducing the likelihood of hallucination.\n\nSource: rag_overview.md, chunk 0, score 0.231",
+      "groundedness_proxy": {
+        "score": 0.538,
+        "note": "Automatic lexical proxy only; final groundedness should be checked manually."
+      }
+    },
+    {
+      "id": "q3",
+      "query": "What chunk size is a reasonable starting point for this project?",
+      "relevant_sources": [
+        "chunking.md"
+      ],
+      "retrieved_sources": [
+        "chunking.md",
+        "vector_databases.md",
+        "rag_overview.md",
+        "embeddings.md",
+        "local_llm.md"
+      ],
+      "precision_at_k": 0.2,
+      "recall_at_k": 1.0,
+      "answer": "A chunk size around 256 to 512 tokens with 40 to 80 tokens of overlap is a reasonable starting point for this project. This recommendation is based on the context provided in \"chunking.md\".",
+      "groundedness_proxy": {
+        "score": 0.571,
+        "note": "Automatic lexical proxy only; final groundedness should be checked manually."
+      }
+    },
+    {
+      "id": "q4",
+      "query": "What is the relationship between Ollama and Qwen in this project?",
+      "relevant_sources": [
+        "local_llm.md"
+      ],
+      "retrieved_sources": [
+        "local_llm.md",
+        "rag_overview.md",
+        "llm_agents.md",
+        "embeddings.md",
+        "grounding.md"
+      ],
+      "precision_at_k": 0.2,
+      "recall_at_k": 1.0,
+      "answer": "In this project, Ollama and Qwen have a specific relationship where Ollama is used to run the open-source language model Qwen2.5-7B-Instruct locally. Ollama provides a local HTTP API that allows a Python RAG program to send prompts to Qwen and receive generated answers. The use of Ollama for running Qwen on a local machine satisfies the self-hosted requirement, although it may result in slower generation compared to hosted APIs, especially on machines with limited memory or no GPU acceleration.\n\nSource: local_llm.md",
+      "groundedness_proxy": {
+        "score": 0.707,
+        "note": "Automatic lexical proxy only; final groundedness should be checked manually."
+      }
+    },
+    {
+      "id": "q5",
+      "query": "What does an embedding model do?",
+      "relevant_sources": [
+        "embeddings.md"
+      ],
+      "retrieved_sources": [
+        "embeddings.md",
+        "rag_overview.md",
+        "chunking.md",
+        "vector_databases.md",
+        "llm_memory.md"
+      ],
+      "precision_at_k": 0.2,
+      "recall_at_k": 1.0,
+      "answer": "An embedding model converts text into dense numerical vectors. Texts with similar meanings are represented by vectors that are close to each other in the embedding space, enabling semantic-based searches rather than relying solely on exact keyword overlap.",
+      "groundedness_proxy": {
+        "score": 0.667,
+        "note": "Automatic lexical proxy only; final groundedness should be checked manually."
+      }
+    },
+    {
+      "id": "q6",
+      "query": "What is LLM memory and why can it improve personalization?",
+      "relevant_sources": [
+        "llm_memory.md"
+      ],
+      "retrieved_sources": [
+        "llm_memory.md",
+        "recommender_systems.md",
+        "rag_overview.md",
+        "llm_agents.md",
+        "personalization_bias.md"
+      ],
+      "precision_at_k": 0.2,
+      "recall_at_k": 1.0,
+      "answer": "LLM memory refers to mechanisms that allow a language model application to retain useful information across turns or sessions. This memory can be short-term, involving recent conversation history directly placed into the prompt, or long-term, encompassing user preferences, prior facts, summaries, or task history stored in a database and retrieved when relevant.\n\nThis capability improves personalization because the assistant can adapt to a user's goals, constraints, and prior choices. For example, a travel assistant might remember that a user prefers morning flights and vegetarian meals, while a coding assistant could recall a project's framework, naming conventions, and testing commands. By retaining such information, LLM memory enables more tailored and context-aware responses, enhancing the overall user experience.",
+      "groundedness_proxy": {
+        "score": 0.667,
+        "note": "Automatic lexical proxy only; final groundedness should be checked manually."
+      }
+    },
+    {
+      "id": "q7",
+      "query": "What components does a basic LLM agent controller include?",
+      "relevant_sources": [
+        "llm_agents.md"
+      ],
+      "retrieved_sources": [
+        "llm_agents.md",
+        "llm_memory.md",
+        "local_llm.md",
+        "rag_overview.md",
+        "recommender_systems.md"
+      ],
+      "precision_at_k": 0.2,
+      "recall_at_k": 1.0,
+      "answer": "A basic LLM agent controller includes the following components:\n\n- A tool registry\n- A routing or planning method\n- Execution logic\n- Trace logging\n\nThese components help manage the steps an agent takes to achieve its goals, including how it selects and uses tools, executes tasks, and records each step for debugging purposes.",
+      "groundedness_proxy": {
+        "score": 0.367,
+        "note": "Automatic lexical proxy only; final groundedness should be checked manually."
+      }
+    },
+    {
+      "id": "q8",
+      "query": "What is the trade-off when choosing top-k?",
+      "relevant_sources": [
+        "vector_databases.md"
+      ],
+      "retrieved_sources": [
+        "personalization_bias.md",
+        "vector_databases.md",
+        "recommender_systems.md",
+        "chunking.md",
+        "rag_overview.md"
+      ],
+      "precision_at_k": 0.2,
+      "recall_at_k": 1.0,
+      "answer": "A small k can miss relevant evidence, while a large k can add noise and increase generation latency. This trade-off affects how many chunks are passed into the prompt in vector databases like those used in Retrieval-Augmented Generation (RAG) systems.\n\nReference:\n[Source: vector_databases.md, chunk 0, score 0.208]",
+      "groundedness_proxy": {
+        "score": 0.654,
+        "note": "Automatic lexical proxy only; final groundedness should be checked manually."
+      }
+    },
+    {
+      "id": "q9",
+      "query": "What signals can recommender systems use for personalization?",
+      "relevant_sources": [
+        "recommender_systems.md"
+      ],
+      "retrieved_sources": [
+        "recommender_systems.md",
+        "personalization_bias.md",
+        "llm_memory.md",
+        "vector_databases.md",
+        "rag_overview.md"
+      ],
+      "precision_at_k": 0.2,
+      "recall_at_k": 1.0,
+      "answer": "Recommender systems can use various personalization signals such as explicit ratings, clicks, purchases, search queries, dwell time, and user profiles. These signals help in understanding user preferences and providing more relevant recommendations.\n\nSource: [Source: recommender_systems.md, chunk 0, score 0.683]",
+      "groundedness_proxy": {
+        "score": 0.577,
+        "note": "Automatic lexical proxy only; final groundedness should be checked manually."
+      }
+    },
+    {
+      "id": "q10",
+      "query": "What is personalization bias and how can it be mitigated?",
+      "relevant_sources": [
+        "personalization_bias.md"
+      ],
+      "retrieved_sources": [
+        "personalization_bias.md",
+        "recommender_systems.md",
+        "llm_memory.md",
+        "chunking.md",
+        "grounding.md"
+      ],
+      "precision_at_k": 0.2,
+      "recall_at_k": 1.0,
+      "answer": "Personalization bias occurs when a system overuses prior user behavior or popularity signals, leading to filter bubbles where users repeatedly receive similar items and have fewer chances to discover diverse content. This issue is closely related to popularity bias, where popular items receive more exposure, which then makes them appear even more relevant through a feedback loop. As a result, niche or new items may struggle to be surfaced despite matching a user's needs.\n\nMitigation strategies for personalization bias include:\n- Diversity-aware ranking: Ensuring that the recommendation system includes a variety of content types and sources.\n- Exploration: Encouraging users to explore different items beyond their usual preferences.\n- Fairness constraints: Implementing measures to prevent the system from reinforcing stereotypes or majority patterns based on group-level behavior.\n- Debiasing training data: Cleaning and preprocessing the data used to train the recommendation model to reduce biases.\n- Measuring exposure across item groups: Ensuring that all types of items receive fair consideration in the recommendation process.\n\nThese strategies help maintain relevance while providing users with opportunities to discover novel and less popular items.",
+      "groundedness_proxy": {
+        "score": 0.67,
+        "note": "Automatic lexical proxy only; final groundedness should be checked manually."
+      }
+    }
+  ]
+}
