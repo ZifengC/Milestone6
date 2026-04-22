@@ -2,7 +2,7 @@
 
 ## Agent Design
 
-The agent is a lightweight multi-tool controller implemented in `script/agent_controller.py`. It uses the Part 1 RAG retriever as one tool and adds LLM-based summarization, extraction, reasoning, and final answer synthesis tools. The final evaluated runs should use the local open-weight `qwen2.5:7b` instruct model served through Ollama.
+The agent is a lightweight multi-tool controller implemented in `./agent_controller.py`. It uses the Part 1 RAG retriever as one tool and adds LLM-based summarization, extraction, reasoning, and final answer synthesis tools. The final evaluated runs should use the local open-weight `qwen2.5:7b` instruct model served through Ollama.
 
 The controller records every decision as a trace entry. Each trace includes the selected tool, the reason for choosing it, the tool input, the tool output, retrieved sources, and latency.
 
@@ -39,7 +39,7 @@ The agent evaluation contains 10 multi-step tasks:
 9. Compare FAISS and Chroma for a small RAG project.
 10. Create a concise local RAG implementation checklist.
 
-The final evaluated run writes all 10 JSON traces into `script/agent_traces/all_traces.json` and a compact table to `script/agent_traces/trace_summary.md`. The code also supports `--plan-only` for structure inspection without importing RAG dependencies or calling Qwen, but those placeholder traces should not be treated as final evaluated outputs.
+The final evaluated run writes all 10 JSON traces into `./agent_traces/all_traces.json` and a compact table to `./agent_traces/trace_summary.md`. The code also supports `--plan-only` for structure inspection without importing RAG dependencies or calling Qwen, but those placeholder traces should not be treated as final evaluated outputs.
 
 ## Performance Analysis
 
@@ -68,20 +68,17 @@ For debugging, a smaller model could be used, but final evaluated runs should us
 Use `--dry-run` only to verify trace structure without calling Qwen:
 
 ```bash
-cd script
 python agent_controller.py --dry-run
 ```
 
 Use `--plan-only` if the environment does not have FAISS, sentence-transformers, Ollama, or Qwen available:
 
 ```bash
-cd script
 python agent_controller.py --plan-only
 ```
 
 For final evaluated traces, run without `--dry-run` after Ollama and `qwen2.5:7b` are available:
 
 ```bash
-cd script
 python agent_controller.py --model qwen2.5:7b --top-k 5
 ```

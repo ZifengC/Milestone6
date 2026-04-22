@@ -10,7 +10,7 @@ The evaluated local model is `qwen2.5:7b`, served through Ollama.
 ## File Structure
 
 ```text
-script/
+./
 ├── rag_pipeline.py              # Part 1 RAG implementation
 ├── evaluate.py                  # Part 1 evaluation runner
 ├── agent_controller.py          # Part 2 multi-tool agent
@@ -36,7 +36,6 @@ script/
 Create a Python environment and install dependencies:
 
 ```bash
-cd script
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
@@ -81,7 +80,6 @@ Markdown documents -> chunking -> embeddings -> FAISS retrieval -> grounded prom
 Prepare the vector store:
 
 ```bash
-cd script
 python rag_pipeline.py prepare
 ```
 
@@ -147,7 +145,6 @@ Use final_answer after the intermediate tool.
 Run the 10 multi-step agent tasks:
 
 ```bash
-cd script
 python agent_controller.py --model qwen2.5:7b --top-k 5
 ```
 
@@ -181,7 +178,6 @@ agent_traces/
 To inspect routing structure only without loading RAG dependencies or calling Qwen:
 
 ```bash
-cd script
 python agent_controller.py --plan-only
 ```
 
